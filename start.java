@@ -4,7 +4,42 @@ import java.util.Scanner;
 
 public class start {
 
+	/* == Instance variables == */
+	private static boolean isValidUserInput = false;
+
+	/* == Main == */
 	public static void main(String args[]) {
+
+		while (!isValidUserInput) {
+			// Ask user for gameChoice	
+			String userGameChoice = askForInput();	
+
+			// Validate input and open game 	
+			try {
+				isValidUserInput = true;
+				int choice = Integer.parseInt(userGameChoice.strip());
+				openGame(choice);
+			} catch (NumberFormatException e) {continue;}
+		}
+	
+	}
+
+
+	/* == Helper methods == */
+	private static void openGame(int gameChoice) {
+		switch(gameChoice) {
+			case 1: 
+				System.out.println(" Tic Tac Toe");
+				tictactoe.main(null);
+				break;
+			default: 
+				isValidUserInput = false;
+				System.out.println(" This is not a valid game");
+		}
+
+	}
+
+	private static String askForInput() {
 
 		// Display title
 		try {
@@ -27,11 +62,11 @@ public class start {
 		// Get user input
 		System.out.print(" Which game would you like to play? : ");
 		Scanner userInput = new Scanner(System.in);
-		//String userGameChoice = userInput.nextLine();
+		String userGameChoice = userInput.nextLine();
 		userInput.close();
+		System.out.println();
 		
-		// TODO: Display choosen game
+		return userGameChoice;
 
 	}
-
 }
