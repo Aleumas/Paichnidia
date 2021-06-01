@@ -6,6 +6,7 @@ public class start {
 
 	/* == Instance variables == */
 	private static boolean isValidUserInput = false;
+	private static Scanner userInput = new Scanner(System.in);
 
 	/* == Main == */
 	public static void main(String args[]) {
@@ -21,6 +22,9 @@ public class start {
 				openGame(choice);
 			} catch (NumberFormatException e) {continue;}
 		}
+
+
+		userInput.close();
 	
 	}
 
@@ -30,7 +34,7 @@ public class start {
 		switch(gameChoice) {
 			case 1: 
 				System.out.println(" Tic Tac Toe");
-				tictactoe.main(null);
+				startTTT();
 				break;
 			default: 
 				isValidUserInput = false;
@@ -61,12 +65,29 @@ public class start {
 
 		// Get user input
 		System.out.print(" Which game would you like to play? : ");
-		Scanner userInput = new Scanner(System.in);
 		String userGameChoice = userInput.nextLine();
-		userInput.close();
 		System.out.println();
 		
 		return userGameChoice;
 
+	}
+
+	private static void startTTT() {
+		// Display game board
+		tictactoe.displayBoard();
+		String playerMove = askPlayerForMove(1);
+		tictactoe.manipulateBoard('.', playerMove);
+
+	}
+
+	private static String askPlayerForMove(int playerNumber) {
+
+		System.out.println();	
+		System.out.print( "Player " + String.format("%d",playerNumber) + ", what is your move? : ");
+		String playerMove = userInput.nextLine();
+		userInput.close();
+		System.out.println();	
+
+		return playerMove;
 	}
 }
