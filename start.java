@@ -10,7 +10,7 @@ public class start {
 
 	/* == Main == */
 	public static void main(String args[]) {
-
+		clearScreen();
 		while (!isValidUserInput) {
 			// Ask user for gameChoice	
 			String userGameChoice = askForInput();	
@@ -27,7 +27,6 @@ public class start {
 		userInput.close();
 	
 	}
-
 
 	/* == Helper methods == */
 	private static void openGame(int gameChoice) {
@@ -74,10 +73,21 @@ public class start {
 
 	private static void startTTT() {
 		// Display game board
-		tictactoe.displayBoard();
-		String playerMove = askPlayerForMove(1);
-		tictactoe.manipulateBoard('.', playerMove);
+		tictactoe.displayBoard("TTTBoard.txt");
+		int turnCount = 0;
+		while (turnCount < 5) {
+			int playerTurn = (turnCount % 2 == 0) ? 1 : 2;
+			String playerMove = askPlayerForMove(playerTurn);
+			tictactoe.manipulateBoard(playerTurn, playerMove);
+			tictactoe.displayBoard("activeTTTBoard.txt");
+			turnCount++;
+		}
 
+	}
+
+	private static void clearScreen() {
+		System.out.print("\033[H\033[2J"); 
+		System.out.flush();
 	}
 
 	private static String askPlayerForMove(int playerNumber) {
@@ -85,7 +95,6 @@ public class start {
 		System.out.println();	
 		System.out.print( "Player " + String.format("%d",playerNumber) + ", what is your move? : ");
 		String playerMove = userInput.nextLine();
-		userInput.close();
 		System.out.println();	
 
 		return playerMove;
