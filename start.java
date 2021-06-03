@@ -75,7 +75,7 @@ public class start {
 		// Display game board
 		tictactoe.displayBoard("TTTBoard.txt");
 		int turnCount = 0;
-		while (turnCount < 5) {
+		while (!tictactoe.win()) {
 			int playerTurn = (turnCount % 2 == 0) ? 1 : 2;
 			String playerMove = askPlayerForMove(playerTurn);
 			tictactoe.manipulateBoard(playerTurn, playerMove);

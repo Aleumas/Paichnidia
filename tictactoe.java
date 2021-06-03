@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.FileWriter;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class tictactoe {
@@ -54,7 +55,6 @@ public class tictactoe {
 							}
 						}
 					}
-
 					writePlayerMove(newBoardLine);
 				} else {
 					writePlayerMove(boardLine);
@@ -65,7 +65,7 @@ public class tictactoe {
 
 			reader.close();
 			
-		} catch (FileNotFoundException e) {}
+		} catch (FileNotFoundException e) {System.out.println(e);}
 
 	}
 
@@ -99,8 +99,42 @@ public class tictactoe {
 		}
 	}
 
-	private static boolean win() {
+	protected static boolean win() {
+		ArrayList<String> player1Moves = new ArrayList<String>();
+		ArrayList<String> player2Moves = new ArrayList<String>();
+
+		for (int i = 0; i < moveHistory.size(); i++) {
+			if (i % 2 == 0)	{ player1Moves.add(moveHistory.get(i)); }
+			else { player2Moves.add(moveHistory.get(i)); }
+		}
+
+		HashSet<Character> rows = new HashSet<Character>();
+		HashSet<Character> columns = new HashSet<Character>();
 		
+		for (String move : player1Moves) {
+			char player1Row = move.charAt(0);
+			char player1Column = move.charAt(1);
+			rows.add(player1Row);
+			columns.add(player1Column);
+		}
+		
+
+		if (rows.size() == player1Moves.size() - 2) { System.out.println("Player 1 wins"); return true; }
+		else if (columns.size() == player1Moves.size() - 2) { System.out.println("Player 1 wins"); return true; }
+		
+		rows.clear();
+		columns.clear();
+
+		for (String move : player2Moves) {
+			char player2Row = move.charAt(0);
+			char player2Column = move.charAt(1);
+			rows.add(player2Row);
+			columns.add(player2Column);
+		}
+
+		if (rows.size() == player2Moves.size() - 2) { System.out.println("Player 2 wins"); return true; }
+		else if (columns.size() == player2Moves.size() - 2) { System.out.println("Player 2 wins"); return true; }
+
 		return false;
 	}
 }
