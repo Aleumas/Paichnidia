@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.FileWriter;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -110,30 +111,43 @@ public class tictactoe {
 
 		HashSet<Character> rows = new HashSet<Character>();
 		HashSet<Character> columns = new HashSet<Character>();
+		HashSet<String> diagonal1 = new HashSet<String>(Arrays.asList("1a", "2b", "3c"));
+		HashSet<String> diagonal2 = new HashSet<String>(Arrays.asList("3a", "2b", "1c"));
 		
 		for (String move : player1Moves) {
 			char player1Row = move.charAt(0);
 			char player1Column = move.charAt(1);
 			rows.add(player1Row);
 			columns.add(player1Column);
+			diagonal1.add(move.substring(0, move.length() - 1));
+			diagonal2.add(move.substring(0, move.length() - 1));
 		}
-		
+
+		if (diagonal1.size() == player1Moves.size()) { System.out.println("Player 1 wins"); return true; }
+		if (diagonal2.size() == player1Moves.size()) { System.out.println("Player 1 wins"); return true; }
 
 		if (rows.size() == player1Moves.size() - 2) { System.out.println("Player 1 wins"); return true; }
 		else if (columns.size() == player1Moves.size() - 2) { System.out.println("Player 1 wins"); return true; }
 		
 		rows.clear();
 		columns.clear();
+		diagonal1.clear();
+		diagonal2.clear();
 
 		for (String move : player2Moves) {
 			char player2Row = move.charAt(0);
 			char player2Column = move.charAt(1);
 			rows.add(player2Row);
 			columns.add(player2Column);
+			diagonal1.add(move.substring(0, move.length() - 1));
+			diagonal2.add(move.substring(0, move.length() - 1));
 		}
 
 		if (rows.size() == player2Moves.size() - 2) { System.out.println("Player 2 wins"); return true; }
 		else if (columns.size() == player2Moves.size() - 2) { System.out.println("Player 2 wins"); return true; }
+
+		if (diagonal1.size() == player2Moves.size()) { System.out.println("Player 2 wins"); return true; }
+		if (diagonal2.size() == player2Moves.size()) { System.out.println("Player 2 wins"); return true; }
 
 		return false;
 	}
