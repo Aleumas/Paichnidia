@@ -3,7 +3,7 @@
 
 [How do I prenounce paichnidia?](https://translate.google.com/?sl=auto&tl=el&text=games&op=translate&hl=en)
 
-'Paichnidia' is an ASCII game library written in Java. This library aims to be
+`Paichnidia` is an ASCII game library written in Java. This library aims to be
 simple, lightweight, and extensible with the hopes of adding an AI multiplayer mode.
 
 ## Installation
