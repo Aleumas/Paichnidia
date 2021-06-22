@@ -9,8 +9,6 @@ import java.util.Scanner;
 
 public class tictactoe {
 
-	
-
 	static char[] symbols = {'-', 'x', 'o'};
 	static ArrayList<String> moveHistory = new ArrayList<String>();
 
@@ -111,44 +109,49 @@ public class tictactoe {
 
 		HashSet<Character> rows = new HashSet<Character>();
 		HashSet<Character> columns = new HashSet<Character>();
-		HashSet<String> diagonal1 = new HashSet<String>(Arrays.asList("1a", "2b", "3c"));
-		HashSet<String> diagonal2 = new HashSet<String>(Arrays.asList("3a", "2b", "1c"));
-		
+		HashSet<String> rawMoves = new HashSet<String>();
+		HashSet<String> diagonalRight = new HashSet<String>();
+		HashSet<String> diagonalLeft = new HashSet<String>();
+		HashSet<String> intersection = new HashSet<String>(rawMoves);
+		int DIAGONAL_WIN_LENGTH = 3;
+		diagonalRight.addAll(Arrays.asList( new String[] {"1a", "2b", "3c"}));	
+		diagonalLeft.addAll(Arrays.asList( new String[] {"2b", "1c", "3a"}));	
 		for (String move : player1Moves) {
 			char player1Row = move.charAt(0);
 			char player1Column = move.charAt(1);
 			rows.add(player1Row);
 			columns.add(player1Column);
-			diagonal1.add(move.substring(0, move.length() - 1));
-			diagonal2.add(move.substring(0, move.length() - 1));
+			rawMoves.add(move.substring(0, move.length() - 1));
 		}
 
-		if (diagonal1.size() == player1Moves.size()) { System.out.println("Player 1 wins"); return true; }
-		if (diagonal2.size() == player1Moves.size()) { System.out.println("Player 1 wins"); return true; }
-
+		intersection = new HashSet<String>(rawMoves);
+		intersection.retainAll(diagonalRight);
+		if (intersection.size() == DIAGONAL_WIN_LENGTH) { System.out.println("Player 1 wins"); return true; }
+		intersection = new HashSet<String>(rawMoves);
+		intersection.retainAll(diagonalLeft);
+		if (intersection.size() == DIAGONAL_WIN_LENGTH) { System.out.println("Player 1 wins"); return true; }
 		if (rows.size() == player1Moves.size() - 2) { System.out.println("Player 1 wins"); return true; }
 		else if (columns.size() == player1Moves.size() - 2) { System.out.println("Player 1 wins"); return true; }
 		
 		rows.clear();
 		columns.clear();
-		diagonal1.clear();
-		diagonal2.clear();
 
 		for (String move : player2Moves) {
 			char player2Row = move.charAt(0);
 			char player2Column = move.charAt(1);
 			rows.add(player2Row);
 			columns.add(player2Column);
-			diagonal1.add(move.substring(0, move.length() - 1));
-			diagonal2.add(move.substring(0, move.length() - 1));
+			rawMoves.add(move.substring(0, move.length() - 1));
 		}
-
+		
+		intersection = new HashSet<String>(rawMoves);
+		intersection.retainAll(diagonalRight);
+		if (intersection.size() == DIAGONAL_WIN_LENGTH) { System.out.println("Player 1 wins"); return true; }
+		intersection = new HashSet<String>(rawMoves);
+		intersection.retainAll(diagonalLeft);
+		if (intersection.size() == DIAGONAL_WIN_LENGTH) { System.out.println("Player 1 wins"); return true; }
 		if (rows.size() == player2Moves.size() - 2) { System.out.println("Player 2 wins"); return true; }
 		else if (columns.size() == player2Moves.size() - 2) { System.out.println("Player 2 wins"); return true; }
-
-		if (diagonal1.size() == player2Moves.size()) { System.out.println("Player 2 wins"); return true; }
-		if (diagonal2.size() == player2Moves.size()) { System.out.println("Player 2 wins"); return true; }
-
 		return false;
 	}
 }
