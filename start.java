@@ -5,46 +5,42 @@ import java.util.Scanner;
 public class start {
 
 	/* == Instance variables == */
-	private static boolean isValidUserInput = false;
+	private static boolean validInput = false;
 	private static Scanner userInput = new Scanner(System.in);
 
 	/* == Main == */
 	public static void main(String args[]) {
+
 		clearScreen();
-		while (!isValidUserInput) {
-			// Ask user for gameChoice	
-			String userGameChoice = askForInput();	
-
-			// Validate input and open game 	
-			try {
-				isValidUserInput = true;
-				int choice = Integer.parseInt(userGameChoice.strip());
-				openGame(choice);
-			} catch (NumberFormatException e) {continue;}
+		while (!validInput) {
+			String choice = askForUserInput();	
+			if (isNumeric(choice)) {
+				validInput = true;
+				int gameIndex = Integer.parseInt(choice.strip());
+				openGame(gameIndex);
+			}
 		}
-
-
 		userInput.close();
-	
+
 	}
 
 	/* == Helper methods == */
-	private static void openGame(int gameChoice) {
-		switch(gameChoice) {
+	private static void openGame(int gameIndex) {
+
+		switch(gameIndex) {
 			case 1: 
 				System.out.println(" Tic Tac Toe");
 				startTTT();
 				break;
 			default: 
-				isValidUserInput = false;
+				validInput = false;
 				System.out.println(" This is not a valid game");
 		}
 
 	}
 
-	private static String askForInput() {
+	private static String askForUserInput() {
 
-		// Display title
 		try {
 			File title = new File("title.txt");
 			Scanner reader = new Scanner(title);
@@ -57,22 +53,20 @@ public class start {
 			System.out.println("Error reading file");
 		}
 
-		// Display game options
 		System.out.println();
 		System.out.println(" 1. tic tac toe");
 		System.out.println();
 
-		// Get user input
 		System.out.print(" Which game would you like to play? : ");
 		String userGameChoice = userInput.nextLine();
 		System.out.println();
-		
+
 		return userGameChoice;
 
 	}
 
 	private static void startTTT() {
-		// Display game board
+
 		tictactoe.displayBoard("TTTBoard.txt");
 		int turnCount = 0;
 		while (!tictactoe.win()) {
@@ -90,6 +84,18 @@ public class start {
 		System.out.flush();
 	}
 
+	private static boolean isNumeric(String possibleNumericString) {
+
+		if (possibleNumericString == null || possibleNumericString == "") { return false; }
+
+		try {
+			int number = Integer.parseInt(possibleNumericString);
+		} catch (NumberFormatException e) { return false; }
+
+		return true;
+
+	}
+
 	private static String askPlayerForMove(int playerNumber) {
 
 		System.out.println();	
@@ -98,5 +104,7 @@ public class start {
 		System.out.println();	
 
 		return playerMove;
+
 	}
+
 }

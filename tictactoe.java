@@ -1,17 +1,19 @@
 import java.io.File;
-import java.io.IOException;
-import java.io.FileWriter;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Scanner;
 
 public class tictactoe {
-
+	
+	/* == Instance variables == */
 	static char[] symbols = {'-', 'x', 'o'};
 	static ArrayList<String> moveHistory = new ArrayList<String>();
 
+	/* == Helper methods == */
 	protected static void displayBoard(String board) {
 
 		try {
@@ -28,6 +30,7 @@ public class tictactoe {
 	}
 
 	protected static void manipulateBoard(int playerTurn, String position) {
+
 		clearPlayerMoves();
 		moveHistory.add(position + symbols[playerTurn]);
 
@@ -50,7 +53,6 @@ public class tictactoe {
 									newBoardLine = newBoardLine.substring(0, columnPosition) + move.charAt(2) + 
 										newBoardLine.substring(columnPosition + 1, newBoardLine.length());
 								}
-
 							}
 						}
 					}
@@ -58,31 +60,32 @@ public class tictactoe {
 				} else {
 					writePlayerMove(boardLine);
 				}
-
 				lineNumber++;		
 			}
-
 			reader.close();
-			
 		} catch (FileNotFoundException e) {System.out.println(e);}
 
 	}
 
 	private static void writePlayerMove(String lineToWrite){
+
 		try {
 			FileWriter writer = new FileWriter("activeTTTBoard.txt", true);
 			writer.write(lineToWrite);
 			writer.write(System.getProperty( "line.separator" ));
 			writer.close();
 		} catch (IOException e) { System.out.println(e); }
+
 	}
 
 	private static void clearPlayerMoves() {
+
 		try {
 			FileWriter writer = new FileWriter("activeTTTBoard.txt");
 			writer.write("");
 			writer.close();
 		} catch (IOException e) { System.out.println(e); }
+
 	}
 
 	private static int convertColumnNotation(String position) {
@@ -99,6 +102,7 @@ public class tictactoe {
 	}
 
 	protected static boolean win() {
+
 		ArrayList<String> player1Moves = new ArrayList<String>();
 		ArrayList<String> player2Moves = new ArrayList<String>();
 
@@ -114,6 +118,7 @@ public class tictactoe {
 		HashSet<String> diagonalLeft = new HashSet<String>();
 		HashSet<String> intersection = new HashSet<String>(rawMoves);
 		int DIAGONAL_WIN_LENGTH = 3;
+
 		diagonalRight.addAll(Arrays.asList( new String[] {"1a", "2b", "3c"}));	
 		diagonalLeft.addAll(Arrays.asList( new String[] {"2b", "1c", "3a"}));	
 		for (String move : player1Moves) {
